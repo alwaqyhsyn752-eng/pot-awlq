@@ -1,46 +1,1183 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <meta name="theme-color" content="#0a0a0f" />
-  <link rel="manifest" href="./manifest.json" />
-  <title>pot-awlq — فكرتك لبناء المستقبل</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body, #root { height: 100%; width: 100%; }
-    body {
-      background: #0a0a0f; color: #e0e0e0;
-      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-      overflow-x: hidden;
-    }
-    #boot {
-      position: fixed; inset: 0; display: flex;
-      align-items: center; justify-content: center;
-      flex-direction: column; gap: 1rem;
-      background: #0a0a0f; z-index: 9999;
-    }
-    #boot h1 {
-      font-size: 2rem;
-      background: linear-gradient(90deg, #00ff88, #00ccff);
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .spin {
-      width: 40px; height: 40px;
-      border: 3px solid #1a1a2e; border-top-color: #00ff88;
-      border-radius: 50%; animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>pot-awlq — فكرتك لبناء المستقبل | @حسين غلاب 2026</title>
+<style>
+/* ============================================================
+   pot-awlq  |  Design System 2026
+   Copyright: @حسين غلاب 2026
+   ============================================================ */
+:root{
+  --bg:#04060d;
+  --bg-2:#080c18;
+  --panel:color-mix(in oklab, #0b1224 88%, transparent);
+  --line:color-mix(in oklab, #2b3a63 70%, transparent);
+  --txt:#e6ecff;
+  --txt-dim:#8a97bd;
+  --cyan:#3df5ff;
+  --violet:#a06bff;
+  --pink:#ff5fb2;
+  --gold:#ffd66b;
+  --ok:#3effa1;
+  --warn:#ffb84d;
+  --err:#ff4d6d;
+  --glow-cyan:0 0 24px color-mix(in oklab, var(--cyan) 70%, transparent);
+  --glow-violet:0 0 24px color-mix(in oklab, var(--violet) 70%, transparent);
+  --radius:16px;
+  --font-ui:'Segoe UI',Tahoma,system-ui,-apple-system,sans-serif;
+  --font-mono:'JetBrains Mono','Fira Code',Consolas,'Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);color:var(--txt);font-family:var(--font-ui)}
+button,input,select,textarea{font-family:inherit;color:inherit}
+button{cursor:pointer;border:none;background:none}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:#05070f}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--violet),var(--cyan));border-radius:8px}
+
+/* ------------ Splash Canvas ------------ */
+#splash{position:fixed;inset:0;z-index:9999;background:#000;display:block}
+#skip{position:fixed;top:20px;left:20px;z-index:10000;padding:8px 18px;border:1px solid var(--line);border-radius:999px;
+  background:rgba(10,15,30,.6);color:var(--txt-dim);font-size:13px;backdrop-filter:blur(10px)}
+#skip:hover{color:var(--cyan);border-color:var(--cyan)}
+
+/* ------------ App Shell ------------ */
+#app{position:fixed;inset:0;display:grid;grid-template-rows:64px 1fr 34px;background:
+  radial-gradient(ellipse at 20% 0%,#131a3a 0%,transparent 55%),
+  radial-gradient(ellipse at 90% 100%,#2a1240 0%,transparent 55%),
+  var(--bg)}
+
+header.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 22px;
+  border-bottom:1px solid var(--line);backdrop-filter:blur(14px);background:rgba(6,10,22,.6)}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.5px}
+.brand .dot{width:12px;height:12px;border-radius:50%;background:var(--cyan);box-shadow:var(--glow-cyan);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.35);opacity:.6}}
+.brand span{background:linear-gradient(90deg,var(--cyan),var(--violet),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;font-size:19px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{padding:9px 16px;border-radius:12px;color:var(--txt-dim);font-size:14px;transition:.25s;border:1px solid transparent}
+.tabs button:hover{color:var(--txt);background:rgba(80,110,200,.12)}
+.tabs button.active{color:var(--bg);background:linear-gradient(135deg,var(--cyan),var(--violet));font-weight:700;box-shadow:var(--glow-cyan)}
+
+main{overflow:auto;padding:22px}
+.panel{display:none;animation:fade .45s ease}
+.panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+footer.copyright{display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--txt-dim);
+  border-top:1px solid var(--line);letter-spacing:.6px}
+footer.copyright b{background:linear-gradient(90deg,var(--gold),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ------------ Cards ------------ */
+.grid{display:grid;gap:18px}
+.grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(420px,1fr))}
+.grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{background:linear-gradient(160deg,rgba(18,26,52,.85),rgba(10,14,28,.85));border:1px solid var(--line);
+  border-radius:var(--radius);padding:20px;position:relative;overflow:hidden;transition:.35s}
+.card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 100% 0%,color-mix(in oklab,var(--violet) 22%,transparent),transparent 60%);opacity:0;transition:.35s}
+.card:hover{border-color:color-mix(in oklab,var(--cyan) 55%,transparent);transform:translateY(-4px);box-shadow:0 20px 40px -20px var(--cyan)}
+.card:hover::before{opacity:1}
+.card h3{font-size:17px;margin-bottom:10px;background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.card p{color:var(--txt-dim);font-size:13.5px;line-height:1.7}
+
+.big-card{padding:28px;cursor:pointer}
+.big-card .icon{font-size:38px;margin-bottom:12px;filter:drop-shadow(0 0 12px var(--cyan))}
+
+/* ------------ IDE ------------ */
+.ide-wrap{display:grid;grid-template-columns:260px 1fr 380px;gap:14px;height:calc(100vh - 160px)}
+.sidebar{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px;overflow:auto}
+.sidebar h4{font-size:12px;letter-spacing:2px;color:var(--txt-dim);margin:12px 0 8px;text-transform:uppercase}
+.sidebar .item{padding:9px 12px;border-radius:10px;color:var(--txt-dim);font-size:13.5px;cursor:pointer;transition:.2s}
+.sidebar .item:hover,.sidebar .item.active{background:rgba(80,110,200,.18);color:var(--cyan)}
+
+.editor-shell{background:#050810;border:1px solid var(--line);border-radius:var(--radius);display:flex;flex-direction:column;overflow:hidden;position:relative}
+.editor-toolbar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);background:rgba(10,15,30,.6)}
+.editor-toolbar select,.editor-toolbar input{padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:#0a0f1f;font-size:13px}
+.btn{padding:8px 16px;border-radius:10px;font-size:13px;font-weight:600;background:linear-gradient(135deg,var(--cyan),var(--violet));color:#020617;transition:.25s}
+.btn:hover{filter:brightness(1.15);transform:translateY(-1px)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--txt)}
+.btn.ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+
+.editor-area{flex:1;position:relative;overflow:auto;font-family:var(--font-mono);font-size:14.5px;line-height:1.65}
+#gutter{position:absolute;top:0;left:0;width:52px;padding:14px 0;text-align:center;color:#4a577a;user-select:none;font-size:12.5px;background:rgba(255,255,255,.02);border-left:1px solid rgba(255,255,255,.05)}
+#code{position:relative;margin-left:52px;padding:14px 16px;white-space:pre;outline:none;min-height:100%;direction:ltr;text-align:left;tab-size:4}
+#code .bad{color:var(--err);background:rgba(255,77,109,.18);border-radius:3px;box-shadow:0 0 12px var(--err);padding:0 1px}
+#code .hint-caret{display:inline-block;width:2px;height:1.1em;background:var(--ok);box-shadow:0 0 12px var(--ok),0 0 24px var(--ok);vertical-align:middle;animation:blink .8s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+.robot-side{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:12px;overflow:auto}
+.robot-avatar{width:76px;height:76px;border-radius:50%;background:
+  radial-gradient(circle at 40% 40%,var(--cyan),transparent 60%),
+  radial-gradient(circle at 70% 60%,var(--violet),transparent 60%),
+  #0a0f1f;border:2px solid var(--cyan);box-shadow:var(--glow-cyan);display:grid;place-items:center;font-size:34px;margin:0 auto}
+.bubble{background:rgba(20,30,60,.7);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:13.5px;line-height:1.75;color:var(--txt)}
+.bubble b{color:var(--cyan)}
+.terminal{background:#02040a;border:1px solid var(--line);border-radius:10px;padding:12px;font-family:var(--font-mono);font-size:12.5px;min-height:120px;max-height:200px;overflow:auto;direction:ltr;text-align:left;color:#a5ffd2}
+.terminal .err{color:var(--err)}
+.terminal .warn{color:var(--warn)}
+
+/* ------------ Quality Bar ------------ */
+.quality{display:flex;align-items:center;gap:12px;padding:10px 14px;border-top:1px solid var(--line);background:rgba(10,15,30,.6)}
+.grade{font-size:26px;font-weight:800;width:56px;height:56px;display:grid;place-items:center;border-radius:50%;border:2px solid var(--cyan);background:radial-gradient(circle,rgba(61,245,255,.15),transparent);color:var(--cyan);box-shadow:var(--glow-cyan)}
+.grade.B{color:var(--violet);border-color:var(--violet)}
+.grade.C{color:var(--warn);border-color:var(--warn)}
+.grade.D,.grade.F{color:var(--err);border-color:var(--err);box-shadow:0 0 24px var(--err)}
+.meter{flex:1;height:8px;border-radius:999px;background:#0d1428;overflow:hidden}
+.meter > i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--cyan),var(--violet));transition:width .5s}
+
+/* ------------ Skill Tree ------------ */
+.skill-tree{position:relative;min-height:520px;background:radial-gradient(circle at 50% 50%,rgba(30,20,70,.5),transparent 70%);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.skill-node{position:absolute;padding:12px 18px;border-radius:14px;background:rgba(15,22,45,.9);border:2px solid var(--line);font-size:13px;font-weight:600;cursor:pointer;transition:.3s}
+.skill-node.locked{opacity:.35;filter:grayscale(1)}
+.skill-node.unlocked{border-color:var(--cyan);box-shadow:var(--glow-cyan)}
+.skill-node.mastered{border-color:var(--gold);box-shadow:0 0 24px var(--gold)}
+
+/* ------------ Quiz ------------ */
+.quiz-q{font-size:16px;margin-bottom:14px;line-height:1.8}
+.quiz-opt{display:block;width:100%;text-align:right;padding:12px 16px;border-radius:10px;border:1px solid var(--line);background:rgba(10,15,30,.6);margin-bottom:8px;transition:.25s;font-size:14px}
+.quiz-opt:hover{border-color:var(--cyan);color:var(--cyan)}
+.quiz-opt.correct{border-color:var(--ok);background:rgba(62,255,161,.12);color:var(--ok)}
+.quiz-opt.wrong{border-color:var(--err);background:rgba(255,77,109,.12);color:var(--err)}
+
+/* ------------ Portfolio Tree ------------ */
+.tree ul{list-style:none;padding-right:18px;border-right:1px dashed var(--line);margin-right:8px}
+.tree li{padding:6px 0;font-size:13.5px;color:var(--txt-dim);position:relative}
+.tree li::before{content:'▸';color:var(--cyan);margin-left:6px}
+.tree li.folder{color:var(--gold);font-weight:700}
+
+/* ------------ Modal ------------ */
+.modal-bg{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;place-items:center}
+.modal-bg.on{display:grid}
+.modal{background:linear-gradient(160deg,#101830,#070b18);border:1px solid var(--line);border-radius:20px;padding:28px;width:min(560px,90vw);max-height:85vh;overflow:auto}
+.modal h3{margin-bottom:14px;background:linear-gradient(90deg,var(--cyan),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.modal .row{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.modal .row > *{flex:1;min-width:140px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:#0a0f1f;font-size:13.5px}
+
+/* ------------ Flowchart Canvas ------------ */
+#flowCanvas{width:100%;height:420px;background:#050810;border:1px solid var(--line);border-radius:12px}
+
+/* ------------ Responsive ------------ */
+@media (max-width:1100px){
+  .ide-wrap{grid-template-columns:1fr;height:auto}
+  .robot-side{order:-1}
+}
+</style>
 </head>
 <body>
-  <div id="boot">
-    <div class="spin"></div>
-    <h1>pot-awlq</h1>
-    <p style="color:#666;font-size:0.9rem">© @حسين غلاب 2026</p>
-  </div>
-  <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
+
+<!-- ==================== SPLASH CINEMATIC ==================== -->
+<canvas id="splash"></canvas>
+<button id="skip">تخطّي المقدمة ⏭</button>
+
+<!-- ==================== MAIN APP ==================== -->
+<div id="app" hidden>
+
+  <header class="topbar">
+    <div class="brand"><span class="dot"></span><span>pot-awlq</span></div>
+    <nav class="tabs" id="tabs">
+      <button data-tab="home" class="active">🏠 الرئيسية</button>
+      <button data-tab="teacher">🏫 المعلم البنّاء</button>
+      <button data-tab="wallet">💼 الحافظة</button>
+      <button data-tab="fixer">🩺 تصحيح الأكواد</button>
+      <button data-tab="skills">💎 شجرة المهارات</button>
+      <button data-tab="quiz">🧪 مركز الاختبارات</button>
+      <button data-tab="settings">⚙️ الإعدادات</button>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ HOME ============ -->
+    <section class="panel active" data-panel="home">
+      <div class="grid cols-2">
+        <div class="card big-card" data-goto="teacher">
+          <div class="icon">🏫</div>
+          <h3>المعلم البنّاء</h3>
+          <p>بيئة تعلم هجينة بين الفصل التفاعلي ومحرر الكود المتقدم، مع تدقيق لحظي وتلميح ذكي بالعربية.</p>
+        </div>
+        <div class="card big-card" data-goto="wallet">
+          <div class="icon">💼</div>
+          <h3>حافظة ما بنيت</h3>
+          <p>خزّن مشاريعك في شجرة شبيهة بمستكشف المستندات، وجدّدها أو صدّرها كمعرض أعمال HTML.</p>
+        </div>
+        <div class="card big-card" data-goto="fixer">
+          <div class="icon">🩺</div>
+          <h3>تصحيح أخطاء الأكواد الجاهزة</h3>
+          <p>مترجم الأخطاء العربي + المحاكي المحلي + المخطط البصري + شريط جودة الكود + التراجع الزمني.</p>
+        </div>
+        <div class="card big-card" data-goto="skills">
+          <div class="icon">💎</div>
+          <h3>شجرة المهارات الكريستالية</h3>
+          <p>خريطة تفاعلية بأسلوب الألعاب تُظهر تقدّمك والمهارات التي فتحتها حتى الآن.</p>
+        </div>
+      </div>
+      <div class="card" style="margin-top:18px;text-align:center">
+        <h3 style="font-size:26px">✧ فكرتك لبناء المستقبل ✧</h3>
+        <p style="margin-top:8px">ابدأ من <b style="color:var(--cyan)">المعلم البنّاء</b> لاختيار البيئة وكتابة أول سطر… ثم راقب المدن الكريستالية تُبنى داخل كودك.</p>
+      </div>
+    </section>
+
+    <!-- ============ TEACHER / IDE ============ -->
+    <section class="panel" data-panel="teacher">
+      <div class="ide-wrap">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <h4>📁 مساحات الكتابة</h4>
+          <div class="item active" data-editor-mode="structured">النسخة الهيكلية</div>
+          <div class="item" data-editor-mode="blank">النسخة الحرة (Blank Canvas)</div>
+
+          <h4>🌐 اللغة والبيئة</h4>
+          <select id="langSelect" style="width:100%;padding:8px;border-radius:8px;background:#0a0f1f;border:1px solid var(--line)">
+            <option value="python">Python</option>
+            <option value="javascript">JavaScript</option>
+            <option value="html">HTML</option>
+          </select>
+          <select id="targetSelect" style="width:100%;margin-top:8px;padding:8px;border-radius:8px;background:#0a0f1f;border:1px solid var(--line)">
+            <option value="web">Web</option>
+            <option value="mobile">Mobile</option>
+            <option value="termux">Termux</option>
+            <option value="desktop">Desktop</option>
+          </select>
+
+          <h4>📚 فصول هيكلية</h4>
+          <div class="item" data-snippet="basics">1) الأساسيات</div>
+          <div class="item" data-snippet="vars">2) المتغيرات</div>
+          <div class="item" data-snippet="control">3) الشروط والحلقات</div>
+          <div class="item" data-snippet="funcs">4) الدوال</div>
+
+          <h4>⚙️ أدوات</h4>
+          <button class="btn ghost" style="width:100%;margin-bottom:8px" id="btnNewProject">✨ مشروع جديد</button>
+          <button class="btn ghost" style="width:100%;margin-bottom:8px" id="btnHint">💡 لغز برمجي</button>
+          <button class="btn ghost" style="width:100%;margin-bottom:8px" id="btnReveal">🔍 اكشف الحرف</button>
+          <button class="btn" style="width:100%" id="btnRun">▶ تشغيل محلي</button>
+        </aside>
+
+        <!-- Editor -->
+        <div class="editor-shell">
+          <div class="editor-toolbar">
+            <select id="template">
+              <option value="">— قالب —</option>
+              <option value="hello">Hello World</option>
+              <option value="vars">متغيرات</option>
+              <option value="loop">حلقة تكرار</option>
+              <option value="func">دالة</option>
+            </select>
+            <button class="btn ghost" id="btnUndo">↶ تراجع</button>
+            <button class="btn ghost" id="btnRedo">↷ إعادة</button>
+            <button class="btn ghost" id="btnTimeline">🕰️ التراجع الزمني</button>
+            <button class="btn ghost" id="btnFlow">📊 المخطط</button>
+            <button class="btn ghost" id="btnSave">💾 حفظ بالمحفظة</button>
+          </div>
+          <div class="editor-area">
+            <div id="gutter"></div>
+            <div id="code" contenteditable="true" spellcheck="false"></div>
+          </div>
+          <div class="quality">
+            <div class="grade" id="grade">A+</div>
+            <div style="flex:1">
+              <div style="font-size:12px;color:var(--txt-dim);margin-bottom:6px">Clean Code Auditor</div>
+              <div class="meter"><i id="meterFill"></i></div>
+            </div>
+            <div style="font-size:12px;color:var(--txt-dim)">السطر: <b id="lineCount">0</b></div>
+          </div>
+        </div>
+
+        <!-- Robot + Terminal -->
+        <aside class="robot-side">
+          <div class="robot-avatar">🤖</div>
+          <div class="bubble" id="robotSay">
+            مرحباً بك في <b>pot-awlq</b>.<br>ماذا تريد أن تبني؟ ما هو هدف المشروع؟ وما اللغة التي تفضّلها؟
+          </div>
+          <div class="terminal" id="terminal">> pot-awlq sandbox ready.<br>> يعمل محلياً 100%</div>
+          <button class="btn ghost" id="btnErrorHumanizer">🩹 ترجمة آخر خطأ</button>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- ============ WALLET ============ -->
+    <section class="panel" data-panel="wallet">
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>📁 شجرة مشاريعك</h3>
+          <div class="tree" id="walletTree"><ul><li class="folder">pot-awlq</li></ul></div>
+        </div>
+        <div class="card">
+          <h3>🚀 مولد معرض الأعمال</h3>
+          <p>حوّل كل المشاريع المحفوظة إلى صفحة <b>Portfolio HTML</b> جاهزة للرفع على GitHub Pages.</p>
+          <button class="btn" style="margin-top:14px" id="btnPortfolio">📤 توليد Portfolio.html</button>
+          <button class="btn ghost" style="margin-top:10px" id="btnClearWallet">🗑️ تفريغ الحافظة</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FIXER ============ -->
+    <section class="panel" data-panel="fixer">
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>🩺 محاكي التنفيذ المحلي</h3>
+          <p>الصق أي كود HTML/CSS/JS أو Python ثم شغّله في بيئة معزولة تماماً.</p>
+          <textarea id="sandboxInput" style="width:100%;height:200px;margin-top:12px;border-radius:12px;padding:12px;background:#050810;border:1px solid var(--line);font-family:var(--font-mono);font-size:13px;color:#a5ffd2"></textarea>
+          <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+            <button class="btn" id="btnSandboxRun">▶ تشغيل في المعاينة</button>
+            <button class="btn ghost" id="btnSandboxHumanize">🩹 ترجمة الأخطاء عربي</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>🖼️ معاينة الناتج</h3>
+          <iframe id="preview" sandbox="allow-scripts" style="width:100%;height:300px;background:#000;border:1px solid var(--line);border-radius:12px;margin-top:12px"></iframe>
+        </div>
+      </div>
+      <div class="card" style="margin-top:18px">
+        <h3>📊 المخطط البصري للكود (Flowchart)</h3>
+        <canvas id="flowCanvas"></canvas>
+      </div>
+    </section>
+
+    <!-- ============ SKILLS ============ -->
+    <section class="panel" data-panel="skills">
+      <div class="card">
+        <h3>💎 خريطة المهارات الكريستالية</h3>
+        <p style="margin-bottom:14px">اضغط على أي عقدة لبدء التحدي المرتبط بها. العقد المضيئة = مفتوحة، الذهبية = مُتقنة.</p>
+        <div class="skill-tree" id="skillTree"></div>
+      </div>
+    </section>
+
+    <!-- ============ QUIZ ============ -->
+    <section class="panel" data-panel="quiz">
+      <div class="card" style="max-width:720px;margin:0 auto">
+        <h3>🧪 مركز الاختبارات</h3>
+        <div id="quizBox"></div>
+      </div>
+    </section>
+
+    <!-- ============ SETTINGS ============ -->
+    <section class="panel" data-panel="settings">
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>⚙️ تخصيص الواجهة</h3>
+          <label style="display:block;margin-top:10px;font-size:13px">شدة النيون</label>
+          <input type="range" min="0" max="100" value="70" id="setNeon" style="width:100%">
+          <label style="display:block;margin-top:14px;font-size:13px">حجم الخط في المحرر</label>
+          <input type="range" min="12" max="22" value="14" id="setFont" style="width:100%">
+          <label style="display:block;margin-top:14px;font-size:13px">صوت الروبوت</label>
+          <select id="setVoice" style="width:100%;padding:8px;border-radius:8px;background:#0a0f1f;border:1px solid var(--line)">
+            <option value="on">مفعّل</option>
+            <option value="off">صامت</option>
+          </select>
+        </div>
+        <div class="card">
+          <h3>📮 التواصل والاقتراحات</h3>
+          <textarea id="suggestBox" placeholder="اكتب اقتراحك لتطوير التطبيق..." style="width:100%;height:120px;margin-top:10px;border-radius:12px;padding:12px;background:#050810;border:1px solid var(--line);color:var(--txt)"></textarea>
+          <button class="btn" style="margin-top:12px" id="btnSendSuggest">📨 إرسال الاقتراح</button>
+          <button class="btn ghost" style="margin-top:10px" id="btnReport">🐞 الإبلاغ عن مشكلة</button>
+          <p style="margin-top:10px;font-size:12px;color:var(--txt-dim)">البريد الموجّه: <b>alwaqyhsyn752-eng</b></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="copyright">© جميع الحقوق محفوظة — <b>@حسين غلاب 2026</b> · pot-awlq</footer>
+</div>
+
+<!-- ==================== MODAL ==================== -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<!-- ==================== SCRIPTS ==================== -->
+<script type="module">
+/* =================================================================
+   pot-awlq — Core Engine 2026
+   @حسين غلاب 2026
+   ================================================================= */
+
+/* ---------- 1) CINEMATIC SPLASH ---------- */
+(function splash(){
+  const cvs = document.getElementById('splash');
+  const ctx = cvs.getContext('2d');
+  const dpr = Math.min(devicePixelRatio||1, 2);
+  let W,H;
+  const resize = ()=>{ W=cvs.width=innerWidth*dpr; H=cvs.height=innerHeight*dpr; cvs.style.width=innerWidth+'px'; cvs.style.height=innerHeight+'px'; };
+  resize(); addEventListener('resize',resize);
+
+  const T = { t0:performance.now(), duration:9200 };
+  const parts = [];
+  const codeChars = ['{','}','(',')','=>','#','@',';','::','[]','λ','∑','∞','0','1','∫','§','¶','♦','◆'];
+  let doorPulse = 0;
+
+  function door(cx,cy,scale,alpha=1){
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    const w = 140*scale, h= 240*scale;
+    const g = ctx.createRadialGradient(cx,cy,10,cx,cy,w*2.6);
+    g.addColorStop(0,`rgba(255,255,255,${0.95*alpha})`);
+    g.addColorStop(0.4,`rgba(200,230,255,${0.25*alpha})`);
+    g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,w*2.6,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = `rgba(255,255,255,${0.9*alpha})`;
+    ctx.shadowColor = '#cfe8ff'; ctx.shadowBlur = 60*scale;
+    ctx.fillRect(cx-w/2, cy-h/2, w, h);
+    ctx.shadowBlur = 0;
+    ctx.restore();
+  }
+
+  function robot(cx,cy,scale,alpha){
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    // brain-head
+    const r = 60*scale;
+    const bg = ctx.createRadialGradient(cx,cy,4,cx,cy,r);
+    bg.addColorStop(0,'rgba(180,220,255,.95)');
+    bg.addColorStop(1,'rgba(120,60,220,.4)');
+    ctx.fillStyle=bg; ctx.shadowColor='#7dd3fc'; ctx.shadowBlur=40*scale;
+    ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.fill();
+    ctx.shadowBlur=0;
+    // digital links
+    ctx.strokeStyle='rgba(120,255,255,.85)'; ctx.lineWidth=1.4*scale;
+    for(let i=0;i<18;i++){
+      const a = (i/18)*Math.PI*2 + performance.now()/1400;
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(a)*r*0.4, cy + Math.sin(a)*r*0.4);
+      ctx.lineTo(cx + Math.cos(a)*r*1.25, cy + Math.sin(a)*r*1.25);
+      ctx.stroke();
+      ctx.fillStyle='rgba(255,180,255,.9)';
+      ctx.beginPath(); ctx.arc(cx + Math.cos(a)*r*1.25, cy + Math.sin(a)*r*1.25, 2.5*scale,0,Math.PI*2); ctx.fill();
+    }
+    // body
+    ctx.fillStyle='rgba(30,50,110,.85)';
+    ctx.beginPath();
+    ctx.roundRect(cx-38*scale, cy+r+6*scale, 76*scale, 60*scale, 12*scale);
+    ctx.fill();
+    // arms
+    ctx.strokeStyle='rgba(150,220,255,.9)'; ctx.lineWidth=6*scale; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(cx+38*scale, cy+r+20*scale); ctx.lineTo(cx+80*scale, cy+r+40*scale); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx-38*scale, cy+r+20*scale); ctx.lineTo(cx-80*scale, cy+r+40*scale); ctx.stroke();
+    ctx.restore();
+  }
+
+  function spawnChar(x,y){
+    parts.push({x,y,vx:(Math.random()-.5)*1.4, vy:1.6+Math.random()*1.6, ch:codeChars[(Math.random()*codeChars.length)|0], life:1});
+  }
+
+  function drawCity(alpha){
+    ctx.save(); ctx.globalAlpha=alpha;
+    const t = performance.now()/1000;
+    const grid=60*dpr;
+    ctx.strokeStyle='rgba(61,245,255,.28)'; ctx.lineWidth=1;
+    // perspective grid
+    for(let y=H*0.55;y<H;y+=grid){
+      ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
+    }
+    for(let x=0;x<W;x+=grid){
+      const skew = (x - W/2)*0.35;
+      ctx.beginPath(); ctx.moveTo(W/2+skew, H*0.55); ctx.lineTo(x, H); ctx.stroke();
+    }
+    // neon buildings
+    for(let i=0;i<28;i++){
+      const seed = i*97.13;
+      const bx = (seed*13)%W;
+      const bh = 80 + ((seed*7)%160)*dpr;
+      const by = H*0.55 - bh*0.3;
+      const bw = 18*dpr + ((seed*3)%14)*dpr;
+      const g = ctx.createLinearGradient(bx,by,bx,by+bh);
+      g.addColorStop(0,'rgba(160,107,255,.55)');
+      g.addColorStop(1,'rgba(61,245,255,.08)');
+      ctx.fillStyle=g;
+      ctx.fillRect(bx,by,bw,bh);
+      ctx.strokeStyle='rgba(255,95,178,.55)';
+      ctx.strokeRect(bx,by,bw,bh);
+    }
+    // logo
+    ctx.globalAlpha=alpha;
+    ctx.font = `800 ${Math.round(46*dpr)}px "Segoe UI",Tahoma`;
+    ctx.textAlign='center';
+    const text = 'فكرتك لبناء المستقبل';
+    const grad = ctx.createLinearGradient(0, H*0.35, 0, H*0.5);
+    grad.addColorStop(0,'#3df5ff'); grad.addColorStop(.5,'#a06bff'); grad.addColorStop(1,'#ff5fb2');
+    ctx.shadowColor='#a06bff'; ctx.shadowBlur=30;
+    ctx.fillStyle=grad;
+    ctx.fillText(text, W/2, H*0.45);
+    ctx.shadowBlur=0;
+    ctx.font=`600 ${Math.round(14*dpr)}px "Segoe UI",Tahoma`;
+    ctx.fillStyle='rgba(230,236,255,.75)';
+    ctx.fillText('pot-awlq  ·  @حسين غلاب 2026', W/2, H*0.45 + 42*dpr);
+    ctx.restore();
+  }
+
+  let done=false;
+  function finish(){
+    if(done) return; done=true;
+    cancelAnimationFrame(raf);
+    cvs.style.transition='opacity .8s'; cvs.style.opacity='0';
+    setTimeout(()=>{ cvs.remove(); document.getElementById('skip').remove(); document.getElementById('app').hidden=false; },820);
+  }
+  document.getElementById('skip').addEventListener('click',finish);
+  addEventListener('keydown',e=>{ if(e.key==='Escape') finish(); });
+
+  let raf;
+  function frame(now){
+    raf = requestAnimationFrame(frame);
+    const el = now - T.t0;
+    ctx.fillStyle='#000'; ctx.fillRect(0,0,W,H);
+
+    // Stage 1: door (0 - 2200)
+    if(el<2200){
+      const p = el/2200;
+      doorPulse = 0.9 + Math.sin(el/300)*0.05;
+      door(W/2,H/2,0.6 + 0.15*Math.sin(el/500), p);
+    }
+    // Stage 2: robot (2000 - 4600)
+    else if(el<4600){
+      const p = (el-2000)/2600;
+      door(W/2,H/2,1.0,0.55);
+      const rx = W/2 - 260*dpr + 180*dpr*p;
+      const ry = H/2 + 40*dpr;
+      robot(rx,ry,1.0, Math.min(1,p*1.6));
+      if(p>0.3 && Math.random()<0.6) spawnChar(rx+120*dpr, ry+60*dpr);
+    }
+    // Stage 3: pour chars on wall (4400 - 6600)
+    else if(el<6600){
+      door(W/2,H/2,1.2,0.7);
+      robot(W/2-60*dpr, H/2+40*dpr,1.05, 1);
+      if(Math.random()<0.9) spawnChar(W/2-40*dpr, H/2+80*dpr);
+    }
+    // Stage 4: fast zoom into door + flash (6400 - 7600)
+    else if(el<7600){
+      const p=(el-6400)/1200;
+      door(W/2,H/2,1.4 + p*4.5, 0.7+p*0.3);
+      if(p>0.75){
+        const a = (p-0.75)/0.25;
+        ctx.fillStyle=`rgba(255,255,255,${a})`;
+        ctx.fillRect(0,0,W,H);
+      }
+    }
+    // Stage 5: crystal city + logo (7600 - 9200)
+    else{
+      const p=(el-7600)/1600;
+      drawCity(Math.min(1,p*1.4));
+      if(p>0.85) finish();
+    }
+
+    // chars draw
+    for(let i=parts.length-1;i>=0;i--){
+      const q=parts[i]; q.x+=q.vx*dpr; q.y+=q.vy*dpr; q.life-=0.006;
+      if(q.life<=0){ parts.splice(i,1); continue; }
+      ctx.save();
+      ctx.globalAlpha=Math.max(0,q.life);
+      ctx.fillStyle='#9df2ff';
+      ctx.font=`${14*dpr}px "JetBrains Mono",monospace`;
+      ctx.fillText(q.ch,q.x,q.y);
+      ctx.restore();
+    }
+    // vignette
+    const vg=ctx.createRadialGradient(W/2,H/2,H*0.2,W/2,H/2,H*0.9);
+    vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,.85)');
+    ctx.fillStyle=vg; ctx.fillRect(0,0,W,H);
+  }
+  raf=requestAnimationFrame(frame);
+})();
+
+/* ---------- 2) TAB ROUTER ---------- */
+const tabs = document.getElementById('tabs');
+const panels = document.querySelectorAll('.panel');
+tabs.addEventListener('click', e=>{
+  const b = e.target.closest('button[data-tab]'); if(!b) return;
+  switchTab(b.dataset.tab);
+});
+document.querySelectorAll('[data-goto]').forEach(c=>{
+  c.addEventListener('click',()=>switchTab(c.dataset.goto));
+});
+function switchTab(name){
+  tabs.querySelectorAll('button').forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
+  panels.forEach(p=>p.classList.toggle('active', p.dataset.panel===name));
+  document.getElementById('main').scrollTop=0;
+}
+
+/* ---------- 3) GLOBAL STATE ---------- */
+const LS_KEY = 'pot-awlq-state-v1';
+const state = structuredClone({
+  wallet: JSON.parse(localStorage.getItem(LS_KEY)||'null')?.wallet ?? [],
+  skillPoints: JSON.parse(localStorage.getItem(LS_KEY)||'null')?.skillPoints ?? 0,
+  history: [],
+  historyIdx: -1,
+  settings: JSON.parse(localStorage.getItem(LS_KEY)||'null')?.settings ?? { neon:70, font:14, voice:'on' }
+});
+function persist(){
+  localStorage.setItem(LS_KEY, JSON.stringify({wallet:state.wallet, skillPoints:state.skillPoints, settings:state.settings}));
+}
+
+/* ---------- 4) EDITOR CORE ---------- */
+const codeEl = document.getElementById('code');
+const gutter = document.getElementById('gutter');
+const terminal = document.getElementById('terminal');
+const robotSay = document.getElementById('robotSay');
+const gradeEl = document.getElementById('grade');
+const meterFill = document.getElementById('meterFill');
+const lineCount = document.getElementById('lineCount');
+const langSelect = document.getElementById('langSelect');
+
+const TEMPLATES = {
+  python: {
+    hello: `# برنامجي الأول\nprint("السلام عليكم")\n`,
+    vars: `name = "حسين"\nage = 2026\nprint(name, age)\n`,
+    loop: `for i in range(5):\n    print("سطر", i)\n`,
+    func: `def greet(name):\n    return "أهلاً " + name\n\nprint(greet("حسين"))\n`
+  },
+  javascript: {
+    hello: `// برنامجي الأول\nconsole.log("السلام عليكم");\n`,
+    vars: `const name = "حسين";\nlet age = 2026;\nconsole.log(name, age);\n`,
+    loop: `for (let i=0;i<5;i++){\n  console.log("سطر", i);\n}\n`,
+    func: `function greet(name){ return "أهلاً " + name; }\nconsole.log(greet("حسين"));\n`
+  },
+  html: {
+    hello: `<!doctype html>\n<html><body>\n<h1>مرحباً</h1>\n</body></html>\n`,
+    vars: ``,
+    loop: ``,
+    func: ``
+  }
+};
+
+// Valid characters per language (very pragmatic for a linter)
+const VALID = {
+  python: /[A-Za-z0-9_\s\u0600-\u06FF.,:;'"()\[\]{}+\-*/%<>=!&|^~#@\\\n\r\t]/,
+  javascript: /[A-Za-z0-9_\s\u0600-\u06FF.,:;'"()`\[\]{}+\-*/%<>=!&|^~?$#@\\\n\r\t]/,
+  html: /[A-Za-z0-9_\s\u0600-\u06FF.,:;'"()\[\]{}+\-*/%<>=!&|^~?#@\\\n\r\t/]/
+};
+
+const RIDDLES = {
+  python: [
+    'أنا علامةٌ صغيرة تُخبر الحاسوب: "هذا نص" — من أنا؟ 🤔',
+    'أنا النقطةُ التي تُنهي سرّ الأرقام العشرية… ما رمزي؟',
+    'أنا قوسان يَحضنان ما سيقوله الحاسوب للعالم… ما هما؟'
+  ],
+  javascript: [
+    'أنا فاصلةٌ منقوطة تُنهي كل جملةٍ بحزم — أين أنا؟ 🤔',
+    'أنا أقواسٌ معقوفة تُغلّف مجموعة أوامر… ما هما؟',
+    'أنا إشارةٌ مزدوجة تساوي، أراجع قبل أن أحكم… ما رمزي؟'
+  ],
+  html: [
+    'أنا قوسان زاويتان يُعلنان بداية الوسم ونهايته — ما هما؟',
+    'أنا الشرطة المائلة التي تقول: هنا ينتهي الوسم… أين أنا؟',
+    'أنا علامة التعجب والشرطتان أعلى الصفحة أُعلن HTML5… ما هي؟'
+  ]
+};
+
+let lintTimeout;
+function scheduleLint(){ clearTimeout(lintTimeout); lintTimeout = setTimeout(runLinter, 30); }
+
+function runLinter(){
+  const lang = langSelect.value;
+  const raw = codeEl.innerText;
+  const re = VALID[lang];
+  const lines = raw.split('\n');
+  lineCount.textContent = lines.length;
+  gutter.innerHTML = lines.map((_,i)=>i+1).join('<br>');
+
+  // find first invalid char & caret position
+  let badIdx = -1, caretIdx = -1;
+  for(let i=0;i<raw.length;i++){
+    if(!re.test(raw[i])){ badIdx=i; break; }
+  }
+
+  // rebuild highlighted HTML
+  const esc = s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  let html='';
+  for(let i=0;i<raw.length;i++){
+    const ch = raw[i];
+    if(i===badIdx){
+      html += `<span class="bad">${esc(ch)}</span>`;
+    } else if(i===caretIdx){
+      html += `<span class="hint-caret"></span>${esc(ch)}`;
+    } else {
+      html += esc(ch);
+    }
+  }
+  if(caretIdx===-1 && badIdx!==-1){
+    // show green caret right before the bad char
+    html = html.replace(`<span class="bad">`, `<span class="hint-caret"></span><span class="bad">`);
+  }
+  const caretPos = codeEl._savedCaret ?? null;
+  codeEl.innerHTML = html;
+  if(caretPos!==null) restoreCaret(caretPos);
+
+  if(badIdx!==-1){
+    speakRobot(`يبدو أن هناك رمزاً غريباً… دعني أساعدك بلغز: ${rand(RIDDLES[lang])}`);
+  }
+
+  auditCleanCode(raw);
+}
+
+function rand(a){ return a[(Math.random()*a.length)|0]; }
+
+function saveCaret(){
+  const sel = getSelection();
+  if(sel.rangeCount && codeEl.contains(sel.anchorNode)){
+    const r = sel.getRangeAt(0).cloneRange();
+    r.collapse(true);
+    codeEl._savedCaret = r;
+  }
+}
+function restoreCaret(range){
+  try{
+    const sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
+  }catch{}
+}
+
+['input','keyup','click','paste'].forEach(ev=>codeEl.addEventListener(ev,()=>{ saveCaret(); scheduleLint(); }));
+codeEl.addEventListener('keydown',e=>{
+  if(e.key==='Tab'){ e.preventDefault(); document.execCommand('insertText',false,'    '); }
+  if(e.key==='Enter'){ setTimeout(()=>{ saveCaret(); scheduleLint(); },0); }
+});
+codeEl.addEventListener('paste', e=>{
+  e.preventDefault();
+  const t = (e.clipboardData||window.clipboardData).getData('text');
+  document.execCommand('insertText',false,t);
+});
+
+function auditCleanCode(src){
+  const lines = src.split('\n').filter(l=>l.trim().length);
+  if(!lines.length){ setGrade('A+',100); return; }
+  let score=100;
+  const maxLen = Math.max(...lines.map(l=>l.length));
+  if(maxLen>100) score-=18;
+  const longRatio = lines.filter(l=>l.length>80).length/lines.length;
+  score -= Math.round(longRatio*30);
+  const hasComments = /(#|\/\/|\/\*)/.test(src);
+  if(!hasComments && lines.length>6) score-=10;
+  const indentBad = lines.filter(l=>/^\t/.test(l)).length;
+  score -= Math.min(20, indentBad*3);
+  const trailing = lines.filter(l=>/\s+$/.test(l)).length;
+  score -= Math.min(15, trailing*2);
+  score = Math.max(40, Math.min(100, score));
+  const g = score>=95?'A+':score>=90?'A':score>=80?'B':score>=70?'C':score>=60?'D':'F';
+  setGrade(g, score);
+}
+function setGrade(g, score){
+  gradeEl.textContent = g;
+  gradeEl.className = 'grade '+g.charAt(0);
+  meterFill.style.width = score+'%';
+}
+
+/* ---------- 5) ROBOT VOICE ---------- */
+let voiceOn = true;
+function speakRobot(text){
+  robotSay.innerHTML = text;
+  if(voiceOn && 'speechSynthesis' in window){
+    try{
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text.replace(/<[^>]+>/g,''));
+      u.lang='ar-SA'; u.rate=0.98; u.pitch=1.05;
+      speechSynthesis.speak(u);
+    }catch{}
+  }
+}
+
+/* ---------- 6) HINT / REVEAL ---------- */
+document.getElementById('btnHint').addEventListener('click',()=>{
+  const lang = langSelect.value;
+  speakRobot(`🧩 لغز برمجي: ${rand(RIDDLES[lang])}`);
+});
+
+document.getElementById('btnReveal').addEventListener('click',()=>{
+  const lang = langSelect.value;
+  const pool = lang==='python'
+    ? ['"', "'", ':', '(', ')', '#', '=']
+    : lang==='javascript'
+    ? [';', '{', '}', '(', ')', '=', '=>']
+    : ['<','>','/','=','"'];
+  const ch = rand(pool);
+  document.execCommand('insertText',false,ch);
+  speakRobot(`وضعتُ الرمز <b>${ch==='<'?'&lt;':ch==='>'?'&gt;':ch}</b> في مكانه فقط… أكمل أنت الباقي 🌟`);
+  scheduleLint();
+});
+
+/* ---------- 7) TEMPLATE / NEW PROJECT ---------- */
+document.getElementById('template').addEventListener('change',e=>{
+  const t = TEMPLATES[langSelect.value]?.[e.target.value];
+  if(t) setCode(t);
+});
+function setCode(txt){
+  codeEl.innerText = txt;
+  pushHistory();
+  saveCaret(); runLinter();
+}
+document.getElementById('btnNewProject').addEventListener('click',()=>{
+  openModal(`
+    <h3>✨ مشروع جديد</h3>
+    <p style="color:var(--txt-dim);font-size:13.5px;line-height:1.8;margin-bottom:14px">
+      ماذا تريد أن تبني؟ ما هدف المشروع؟ وما اللغة التي تفضّلها؟
+    </p>
+    <input id="npName" placeholder="اسم المشروع" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:#0a0f1f;color:var(--txt);margin-bottom:10px">
+    <input id="npGoal" placeholder="هدف المشروع (مثال: لعبة تفاعلية، موقع شخصي...)" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:#0a0f1f;color:var(--txt);margin-bottom:10px">
+    <select id="npLang" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:#0a0f1f;color:var(--txt);margin-bottom:10px">
+      <option value="python">Python</option><option value="javascript">JavaScript</option><option value="html">HTML</option>
+    </select>
+    <select id="npTarget" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:#0a0f1f;color:var(--txt);margin-bottom:16px">
+      <option>Web</option><option>Mobile</option><option>Termux</option><option>Desktop</option>
+    </select>
+    <div class="row"><button class="btn" id="npGo" style="flex:1">🚀 ابدأ</button></div>
+  `);
+  document.getElementById('npGo').addEventListener('click',()=>{
+    const name = document.getElementById('npName').value.trim()||'مشروع بدون اسم';
+    const goal = document.getElementById('npGoal').value.trim();
+    const lang = document.getElementById('npLang').value;
+    const target = document.getElementById('npTarget').value;
+    langSelect.value = lang;
+    document.getElementById('targetSelect').value = target;
+    closeModal();
+    speakRobot(`رائع! سنبني <b>${name}</b> بلغة <b>${lang}</b> على بيئة <b>${target}</b>. لنبدأ 🌟<br><small style="color:var(--txt-dim)">الهدف: ${goal||'حر'}</small>`);
+    setCode(lang==='python'?`# ${name}\n# الهدف: ${goal||'—'}\n\n`: lang==='javascript'?`// ${name}\n// الهدف: ${goal||'—'}\n\n`:`<!-- ${name} -->\n`);
+  });
+});
+
+/* ---------- 8) HISTORY / TIME-TRAVEL ---------- */
+function pushHistory(){
+  const snap = codeEl.innerText;
+  if(state.history[state.historyIdx]===snap) return;
+  state.history = state.history.slice(0, state.historyIdx+1);
+  state.history.push(snap);
+  if(state.history.length>200) state.history.shift();
+  state.historyIdx = state.history.length-1;
+}
+document.getElementById('btnUndo').addEventListener('click',()=>{
+  if(state.historyIdx>0){
+    state.historyIdx--;
+    codeEl.innerText = state.history[state.historyIdx];
+    saveCaret(); runLinter();
+  }
+});
+document.getElementById('btnRedo').addEventListener('click',()=>{
+  if(state.historyIdx<state.history.length-1){
+    state.historyIdx++;
+    codeEl.innerText = state.history[state.historyIdx];
+    saveCaret(); runLinter();
+  }
+});
+document.getElementById('btnTimeline').addEventListener('click',()=>{
+  const items = state.history.map((h,i)=>`<button class="quiz-opt" data-h="${i}">لقطة #${i+1} — ${h.split('\n')[0].slice(0,40)||'—'}</button>`).join('');
+  openModal(`<h3>🕰️ التراجع الزمني</h3><div style="max-height:340px;overflow:auto">${items||'<p>لا يوجد سجل بعد</p>'}</div>`);
+  document.querySelectorAll('[data-h]').forEach(b=>b.addEventListener('click',()=>{
+    state.historyIdx = +b.dataset.h;
+    codeEl.innerText = state.history[state.historyIdx];
+    closeModal(); saveCaret(); runLinter();
+  }));
+});
+
+/* ---------- 9) RUN + SANDBOX ---------- */
+document.getElementById('btnRun').addEventListener('click',()=>{
+  const lang = langSelect.value;
+  const src = codeEl.innerText;
+  terminal.innerHTML = '> running locally…<br>';
+  try{
+    if(lang==='javascript'){
+      const logs=[];
+      const consoleFake = { log:(...a)=>logs.push(a.join(' ')) };
+      const fn = new Function('console', src);
+      fn(consoleFake);
+      terminal.innerHTML += logs.map(l=>'✔ '+l).join('<br>') || '✔ (بدون مخرجات)';
+    } else if(lang==='python'){
+      terminal.innerHTML += '<span class="warn">⚠ لا يوجد مترجم Python مدمج. سيتم استخدام محاكي مبسّط.</span><br>';
+      const pyOut = simulatePython(src);
+      terminal.innerHTML += pyOut || '✔ (بدون مخرجات)';
+    } else {
+      const iframe = document.getElementById('preview');
+      iframe.srcdoc = src;
+      terminal.innerHTML += '✔ تم عرض HTML في المعاينة';
+    }
+    state.skillPoints += 1; persist();
+  }catch(err){
+    terminal.innerHTML += `<span class="err">✖ ${err.name}: ${err.message}</span>`;
+    speakRobot(`حدث خطأ: <b>${err.name}</b>. اضغط "ترجمة آخر خطأ" لأشرحه بالعربي.`);
+    window.__lastErr = err;
+  }
+});
+
+function simulatePython(src){
+  const out=[];
+  const rePrint = /print\s*\(([^)]*)\)/g;
+  let m;
+  const env = {};
+  // assignments
+  src.split('\n').forEach(line=>{
+    const a = line.match(/^\s*([A-Za-z_]\w*)\s*=\s*(.+)$/);
+    if(a){
+      let v = a[2].trim();
+      if(/^["'].*["']$/.test(v)) v=v.slice(1,-1);
+      else if(!isNaN(+v)) v=+v;
+      env[a[1]] = v;
+    }
+  });
+  while((m=rePrint.exec(src))){
+    let args = m[1].split(',').map(s=>{
+      s=s.trim();
+      if(/^["'].*["']$/.test(s)) return s.slice(1,-1);
+      if(env[s]!==undefined) return env[s];
+      return s;
+    });
+    out.push('✔ '+args.join(' '));
+  }
+  return out.join('<br>');
+}
+
+/* ---------- 10) ERROR HUMANIZER ---------- */
+const ERROR_DICT = [
+  [/SyntaxError|Unexpected token/i,'هناك خطأ في تركيب الجملة البرمجية — تحقّق من الأقواس، الفواصل، أو النقاط. ابدأ بمراجعة السطر المذكور.'],
+  [/ReferenceError|is not defined/i,'استخدمت اسماً (متغير/دالة) قبل تعريفه. تأكد من كتابة الاسم بشكل صحيح أو عرّفه أولاً.'],
+  [/TypeError/i,'هناك عدم توافق في أنواع البيانات — ربما تحاول جمع نص مع رقم أو استدعاء دالة غير موجودة.'],
+  [/IndentationError/i,'الترتيب/المسافات البادئة (Indentation) غير صحيحة. في Python يجب أن تتساوى المسافات داخل نفس الكتلة.'],
+  [/NameError/i,'اسم غير معرّف في Python — تأكد من تعريف المتغير أو استيراد الوحدة.'],
+  [/ZeroDivisionError/i,'قسمة على صفر! تحقق من المقام قبل القسمة.'],
+  [/IndexError/i,'تجاوزت حدود القائمة/المصفوفة — الفهرس المطلوب غير موجود.'],
+  [/module not found|Cannot find module/i,'وحدة/مكتبة غير مثبّتة. ثبّتها محلياً قبل الاستخدام.']
+];
+document.getElementById('btnErrorHumanizer').addEventListener('click',()=>{
+  const err = window.__lastErr;
+  if(!err){ speakRobot('لا يوجد خطأ حديث لأشرحه 🎉'); return; }
+  const raw = `${err.name}: ${err.message}`;
+  const hit = ERROR_DICT.find(([re])=>re.test(raw));
+  const expl = hit ? hit[1] : 'خطأ غير معروف — راجع السطر المذكور واقرأ الرسالة الأصلية بحذر.';
+  openModal(`<h3>🩹 مترجم الأخطاء العربي</h3>
+    <p style="color:var(--txt-dim);font-size:13px;margin-bottom:10px">الرسالة الأصلية:</p>
+    <div class="terminal" style="margin-bottom:14px">${raw.replace(/</g,'&lt;')}</div>
+    <p style="color:var(--txt-dim);font-size:13px;margin-bottom:6px">الشرح العربي المبسّط:</p>
+    <div class="bubble">${expl}</div>`);
+});
+
+/* ---------- 11) FLOWCHART ---------- */
+document.getElementById('btnFlow').addEventListener('click',()=>{
+  switchTab('fixer');
+  requestAnimationFrame(()=>drawFlow(codeEl.innerText));
+});
+const flowCvs = document.getElementById('flowCanvas');
+function drawFlow(src){
+  const dpr = Math.min(devicePixelRatio||1,2);
+  const w = flowCvs.clientWidth, h = flowCvs.clientHeight;
+  flowCvs.width = w*dpr; flowCvs.height = h*dpr;
+  const ctx = flowCvs.getContext('2d');
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,w,h);
+  const lines = src.split('\n').map(l=>l.trim()).filter(Boolean);
+  const nodes = [];
+  lines.forEach(l=>{
+    if(/^(def |function )/.test(l)) nodes.push({t:'func', s:l.slice(0,32)});
+    else if(/^(if |elif |else)/.test(l)) nodes.push({t:'cond', s:l.slice(0,32)});
+    else if(/^(for |while )/.test(l)) nodes.push({t:'loop', s:l.slice(0,32)});
+    else if(/^(print|console\.log|return)/.test(l)) nodes.push({t:'io', s:l.slice(0,32)});
+    else nodes.push({t:'stmt', s:l.slice(0,32)});
+  });
+  const palette = { func:'#a06bff', cond:'#ffd66b', loop:'#3df5ff', io:'#3effa1', stmt:'#8a97bd' };
+  let y=30;
+  nodes.slice(0,14).forEach((n,i)=>{
+    const bw=200, bh=44, bx=w/2-bw/2;
+    ctx.strokeStyle = palette[n.t]; ctx.lineWidth=2;
+    ctx.fillStyle = 'rgba(10,15,30,.75)';
+    ctx.beginPath(); ctx.roundRect(bx,y,bw,bh,12); ctx.fill(); ctx.stroke();
+    ctx.fillStyle=palette[n.t];
+    ctx.font='600 12px "Segoe UI",Tahoma';
+    ctx.textAlign='center';
+    ctx.fillText(n.s, w/2, y+bh/2+4);
+    if(i<nodes.length-1){
+      ctx.beginPath();
+      ctx.moveTo(w/2,y+bh); ctx.lineTo(w/2,y+bh+22);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(w/2-5,y+bh+16); ctx.lineTo(w/2+5,y+bh+16); ctx.lineTo(w/2,y+bh+24); ctx.closePath();
+      ctx.fillStyle=palette[n.t]; ctx.fill();
+    }
+    y += bh+24;
+  });
+  if(!nodes.length){ ctx.fillStyle='#8a97bd'; ctx.font='14px Segoe UI'; ctx.textAlign='center'; ctx.fillText('لا يوجد كود لتحليله بعد', w/2, h/2); }
+}
+
+/* ---------- 12) SKILL TREE ---------- */
+const SKILLS = [
+  {id:'basics', n:'الأساسيات', x:80, y:60, pre:[]},
+  {id:'vars', n:'المتغيرات', x:300, y:60, pre:['basics']},
+  {id:'cond', n:'الشروط', x:520, y:60, pre:['vars']},
+  {id:'loops', n:'الحلقات', x:300, y:200, pre:['vars']},
+  {id:'func', n:'الدوال', x:520, y:200, pre:['cond','loops']},
+  {id:'oop', n:'البرمجة الكائنية', x:740, y:200, pre:['func']},
+  {id:'async', n:'البرمجة غير المتزامنة', x:740, y:340, pre:['oop']},
+  {id:'arch', n:'المعمارية', x:520, y:340, pre:['async']},
+  {id:'master', n:'⭐ المهندس', x:300, y:420, pre:['arch']}
+];
+function renderSkills(){
+  const tree = document.getElementById('skillTree');
+  const pts = state.skillPoints;
+  tree.innerHTML='';
+  SKILLS.forEach((s,i)=>{
+    const unlocked = i===0 || s.pre.every(p=>state[`skill_${p}`]);
+    const mastered = state[`skill_${s.id}`];
+    const div = document.createElement('div');
+    div.className='skill-node '+(mastered?'mastered':unlocked?'unlocked':'locked');
+    div.style.left = s.x+'px'; div.style.top = s.y+'px';
+    div.textContent = s.n;
+    div.addEventListener('click',()=>{
+      if(!unlocked){ speakRobot(`🔒 مهارة "${s.n}" مقفلة. أتقن المهارات السابقة أولاً.`); return; }
+      state[`skill_${s.id}`]=true; persist(); renderSkills();
+      speakRobot(`💎 فتحت مهارة <b>${s.n}</b>! استمر.`);
+    });
+    tree.appendChild(div);
+  });
+}
+renderSkills();
+
+/* ---------- 13) QUIZ ---------- */
+const QUIZ = [
+  {q:'ما الرمز الذي ينهي الجملة في JavaScript؟', opts:['.', ';', ':', '،'], a:1},
+  {q:'في Python، ما الكلمة المستخدمة لتعريف دالة؟', opts:['func','def','function','lambda'], a:1},
+  {q:'ما الوسم الذي يحوي جسم صفحة HTML؟', opts:['<head>','<main>','<body>','<section>'], a:2},
+  {q:'أي مما يلي يمثّل "مساواة صارمة" في JS؟', opts:['=','==','===','!='], a:2},
+  {q:'ما ناتج print(2 ** 3) في Python؟', opts:['6','8','9','23'], a:1}
+];
+let qi=0, qScore=0;
+function renderQuiz(){
+  const box = document.getElementById('quizBox');
+  if(qi>=QUIZ.length){
+    box.innerHTML = `<h3>🎉 انتهى الاختبار</h3><p style="margin:14px 0">نتيجتك: <b style="color:var(--cyan);font-size:20px">${qScore}/${QUIZ.length}</b></p>
+      <button class="btn" id="qRestart">إعادة</button>`;
+    document.getElementById('qRestart').addEventListener('click',()=>{ qi=0;qScore=0;renderQuiz(); });
+    return;
+  }
+  const Q = QUIZ[qi];
+  box.innerHTML = `<div class="quiz-q">سؤال ${qi+1}/${QUIZ.length}: ${Q.q}</div>
+    ${Q.opts.map((o,i)=>`<button class="quiz-opt" data-i="${i}">${o}</button>`).join('')}`;
+  box.querySelectorAll('.quiz-opt').forEach(b=>b.addEventListener('click',()=>{
+    const i = +b.dataset.i;
+    if(i===Q.a){ b.classList.add('correct'); qScore++; state.skillPoints+=2; persist(); }
+    else { b.classList.add('wrong'); b.previousElementSibling?.classList.add('correct'); }
+    setTimeout(()=>{ qi++; renderQuiz(); }, 700);
+  }));
+}
+renderQuiz();
+
+/* ---------- 14) WALLET + PORTFOLIO ---------- */
+function renderWallet(){
+  const t = document.getElementById('walletTree');
+  if(!state.wallet.length){ t.innerHTML = '<ul><li class="folder">pot-awlq</li><li>(فارغة — احفظ مشروعك الأول)</li></ul>'; return; }
+  t.innerHTML = '<ul><li class="folder">pot-awlq</li>' + state.wallet.map(p=>
+    `<li class="file">📄 ${p.name} <small style="color:var(--txt-dim)">[${p.lang} · ${p.target}]</small></li>`
+  ).join('') + '</ul>';
+}
+renderWallet();
+
+document.getElementById('btnSave').addEventListener('click',()=>{
+  const name = prompt('اسم المشروع للحفظ؟', 'مشروع-' + (state.wallet.length+1));
+  if(!name) return;
+  state.wallet.push({ name, lang:langSelect.value, target:document.getElementById('targetSelect').value, code:codeEl.innerText, date:new Date().toISOString() });
+  persist(); renderWallet();
+  speakRobot(`💾 تم حفظ <b>${name}</b> في الحافظة.`);
+});
+document.getElementById('btnClearWallet').addEventListener('click',()=>{
+  if(confirm('هل تريد تفريغ الحافظة بالكامل؟')){ state.wallet=[]; persist(); renderWallet(); }
+});
+document.getElementById('btnPortfolio').addEventListener('click',()=>{
+  if(!state.wallet.length){ alert('الحافظة فارغة.'); return; }
+  const html = `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>Portfolio — @حسين غلاب</title>
+  <style>body{font-family:system-ui,Tahoma;background:#05070f;color:#e6ecff;padding:40px;line-height:1.7}
+  h1{background:linear-gradient(90deg,#3df5ff,#a06bff,#ff5fb2);-webkit-background-clip:text;color:transparent}
+  .p{border:1px solid #2b3a63;border-radius:14px;padding:16px;margin:12px 0;background:#0a0f1f}
+  code{font-family:Consolas,monospace;color:#a5ffd2}</style></head><body>
+  <h1>معرض أعمالي — pot-awlq</h1>
+  <p>حقوق الملكية: <b>@حسين غلاب 2026</b></p>
+  ${state.wallet.map(p=>`<div class="p"><h3>${p.name}</h3><p>اللغة: <code>${p.lang}</code> · البيئة: <code>${p.target}</code> · التاريخ: ${new Date(p.date).toLocaleDateString('ar')}</p><pre><code>${p.code.replace(/</g,'&lt;').slice(0,500)}</code></pre></div>`).join('')}
+  </body></html>`;
+  const blob = new Blob([html],{type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'portfolio.html';
+  a.click();
+});
+
+/* ---------- 15) SANDBOX (Fixer) ---------- */
+document.getElementById('btnSandboxRun').addEventListener('click',()=>{
+  const src = document.getElementById('sandboxInput').value;
+  try{
+    document.getElementById('preview').srcdoc = /<[a-z]/i.test(src) ? src : `<pre style="color:#a5ffd2;padding:14px;font-family:Consolas">${src.replace(/</g,'&lt;')}</pre>`;
+    document.getElementById('sandboxInput').dataset.last = src;
+  }catch(e){ alert(e.message); }
+});
+document.getElementById('btnSandboxHumanize').addEventListener('click',()=>{
+  const src = document.getElementById('sandboxInput').value;
+  const lang = /<[a-z]/i.test(src)?'html': /print\s*\(/.test(src)?'python':'javascript';
+  let fakeErr = null;
+  try{
+    if(lang==='javascript') new Function(src)();
+    else if(lang==='html') new DOMParser().parseFromString(src,'text/html');
+  }catch(e){ fakeErr=e; }
+  if(fakeErr) window.__lastErr = fakeErr;
+  document.getElementById('btnErrorHumanizer').click();
+});
+
+/* ---------- 16) SETTINGS ---------- */
+document.getElementById('setNeon').addEventListener('input',e=>{
+  const v=+e.target.value; state.settings.neon=v;
+  document.documentElement.style.setProperty('--glow-cyan',`0 0 ${v/3}px color-mix(in oklab, var(--cyan) ${v}%, transparent)`);
+  persist();
+});
+document.getElementById('setFont').addEventListener('input',e=>{
+  codeEl.style.fontSize = e.target.value+'px'; state.settings.font=+e.target.value; persist();
+});
+document.getElementById('setVoice').addEventListener('change',e=>{
+  voiceOn = e.target.value==='on'; state.settings.voice=e.target.value; persist();
+});
+document.getElementById('btnSendSuggest').addEventListener('click',()=>{
+  const t = document.getElementById('suggestBox').value.trim();
+  if(!t) return;
+  const mail = `mailto:alwaqyhsyn752-eng@example.com?subject=اقتراح%20لتطوير%20pot-awlq&body=${encodeURIComponent(t)}`;
+  location.href = mail;
+  speakRobot('📨 شكراً لك! فُتح بريدك لإرسال الاقتراح.');
+});
+document.getElementById('btnReport').addEventListener('click',()=>{
+  const body = `وصف المشكلة:\n\n\n---\nUA: ${navigator.userAgent}\nDate: ${new Date().toISOString()}`;
+  location.href = `mailto:alwaqyhsyn752-eng@example.com?subject=بلاغ%20مشكلة%20pot-awlq&body=${encodeURIComponent(body)}`;
+});
+
+/* ---------- 17) MODAL ---------- */
+function openModal(html){
+  const bg=document.getElementById('modalBg');
+  document.getElementById('modalContent').innerHTML=html;
+  bg.classList.add('on');
+}
+function closeModal(){ document.getElementById('modalBg').classList.remove('on'); }
+document.getElementById('modalBg').addEventListener('click',e=>{ if(e.target.id==='modalBg') closeModal(); });
+
+/* ---------- 18) BOOT ---------- */
+(function boot(){
+  // apply settings
+  document.getElementById('setNeon').value = state.settings.neon;
+  document.getElementById('setNeon').dispatchEvent(new Event('input'));
+  document.getElementById('setFont').value = state.settings.font;
+  codeEl.style.fontSize = state.settings.font+'px';
+  document.getElementById('setVoice').value = state.settings.voice;
+  voiceOn = state.settings.voice==='on';
+
+  setCode(TEMPLATES.python.hello);
+  pushHistory();
+  window.__ready = true;
+})();
+
+/* ---------- 19) ROUNDED RECT POLYFILL ---------- */
+if(!CanvasRenderingContext2D.prototype.roundRect){
+  CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r){
+    if(typeof r==='number') r=[r,r,r,r];
+    const [tl,tr,br,bl]=r;
+    this.beginPath();
+    this.moveTo(x+tl,y);
+    this.lineTo(x+w-tr,y); this.quadraticCurveTo(x+w,y,x+w,y+tr);
+    this.lineTo(x+w,y+h-br); this.quadraticCurveTo(x+w,y+h,x+w-br,y+h);
+    this.lineTo(x+bl,y+h); this.quadraticCurveTo(x,y+h,x,y+h-bl);
+    this.lineTo(x,y+tl); this.quadraticCurveTo(x,y,x+tl,y);
+    this.closePath();
+    return this;
+  };
+}
+</script>
 </body>
 </html>
