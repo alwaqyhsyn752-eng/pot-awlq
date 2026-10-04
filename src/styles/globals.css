@@ -1,0 +1,17 @@
+:root{--bg:#0a0a0f;--surface:#12121a;--accent:#00ff88;--accent2:#00ccff;--error:#ff3333;--text:#e0e0e0;--text-dim:#888;--border:#1f1f2e}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body,#root{min-height:100%}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI","Noto Sans Arabic",sans-serif;overflow-x:hidden;line-height:1.5}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+textarea,input{font-family:inherit}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn .4s ease-out}
+.dash-card{position:relative;padding:1.5rem;border-radius:1rem;text-align:right;transition:all .3s;border:1px solid var(--border);background:linear-gradient(135deg,rgba(0,255,136,.05),rgba(0,204,255,.05));animation:fadeIn .5s ease-out backwards}
+.dash-card:active{transform:scale(.98)}
+.btn-primary{padding:.75rem 1.5rem;border-radius:.75rem;background:var(--accent);color:#000;font-weight:bold;transition:all .2s}
+.btn-primary:active{transform:scale(.96)}
+.btn-secondary{padding:.75rem 1.5rem;border-radius:.75rem;background:#1a1a2e;color:var(--text);border:1px solid var(--border)}
+.btn-secondary:active{transform:scale(.96)}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#2a2a3e;border-radius:3px}
